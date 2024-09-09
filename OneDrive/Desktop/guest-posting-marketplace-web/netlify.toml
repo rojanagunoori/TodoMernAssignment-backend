@@ -1,0 +1,24 @@
+[build]
+  command = "npm run build"
+  publish = "frontend/build"
+  
+[build.environment]
+  MONGO_URI = "mongodb+srv://guest-posting-marketplace-web:guest-posting-marketplace-web@cluster0.kjvasef.mongodb.net/guest-posting-marketplace-web?retryWrites=true&w=majority&appName=Cluster0"
+  DB_USER = "guest-posting-marketplace-web"
+  DB_PASS = "guest-posting-marketplace-web"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "max-age=3600, must-revalidate"
