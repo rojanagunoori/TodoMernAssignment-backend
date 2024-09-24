@@ -11,12 +11,12 @@ const app=express()
 const PORT=process.env.PORT || 5000
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 const allowedOrigins = [
-    "https://your-frontend-domain.com", 
+    "https://todo-mern-sqlite3.netlify.app/", 
     "http://localhost:3000" 
 ];
 
 const corsOptions = {
-    origin: allowedOrigins,
+    origin: "https://todo-mern-sqlite3.netlify.app/",
     optionsSuccessStatus: 200 
 };
 
