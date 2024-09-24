@@ -14,16 +14,17 @@ const allowedOrigins = [
     "https://todo-mern-sqlite3.netlify.app/", 
     "http://localhost:3000" 
 ];
-
-const corsOptions = {
-    origin: "https://todo-mern-sqlite3.netlify.app/",
-    optionsSuccessStatus: 200 
-};
-app.use(cors({
+/** app.use(cors({
     origin: 'https://todo-mern-sqlite3.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));*/
 
 /*app.use(cors({
     origin: "https://todo-mern-sqlite3.netlify.app" 
@@ -103,17 +104,22 @@ app.post("/login",(req,res)=>{
 app.post("/createtask", authenticateJWT, (req, res) => {
     const { title, status } = req.body;
     const id = require("uuid").v4();
-
+console.log("this is working 1")
    
     if (!title || !status) {
+        console.log("Missing title or status");
         return res.status(400).send({ message: "Title and status are required!" });
     }
-
+    console.log("this is working 2")
     db.run("INSERT INTO tasks (id, userId, title, status) VALUES (?, ?, ?, ?)", [id, req.user.id, title, status], (err) => {
+        console.error("Database error:", err);
+        console.log("this is working 3")
         if (err) {
+            console.log("this is working 5")
             console.error("Error creating task:", err); 
             return res.status(500).send({ message: "Error creating task" });
         }
+        console.log("this is working 6")
         res.status(201).send({ message: "Task Created Successfully!" });
     });
 });
