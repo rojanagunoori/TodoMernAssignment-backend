@@ -104,14 +104,14 @@ app.post("/createtask", authenticateJWT, (req, res) => {
     const { title, status } = req.body;
     const id = require("uuid").v4();
 
-    // Check for missing fields
+   
     if (!title || !status) {
         return res.status(400).send({ message: "Title and status are required!" });
     }
 
     db.run("INSERT INTO tasks (id, userId, title, status) VALUES (?, ?, ?, ?)", [id, req.user.id, title, status], (err) => {
         if (err) {
-            console.error("Error creating task:", err); // Log the error for debugging
+            console.error("Error creating task:", err); 
             return res.status(500).send({ message: "Error creating task" });
         }
         res.status(201).send({ message: "Task Created Successfully!" });
@@ -182,6 +182,11 @@ app.delete("/deleteprofile", authenticateJWT, (req, res) => {
 
         res.status(200).send({ message: "Profile Deleted Successfully!" });
     });
+});
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
 });
 
 
