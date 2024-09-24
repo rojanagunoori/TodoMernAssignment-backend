@@ -20,7 +20,9 @@ const corsOptions = {
     optionsSuccessStatus: 200 
 };
 
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: "https://todo-mern-sqlite3.netlify.app" 
+}));
 
 //app.use(cors())
 app.use(bodyParser.json());
