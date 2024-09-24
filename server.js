@@ -108,7 +108,7 @@ console.log("this is working 1")
    
     if (!title || !status) {
         console.log("Missing title or status");
-        return res.status(400).send({ message: "Title and status are required!" });
+       // return res.status(400).send({ message: "Title and status are required!" });
     }
     console.log("this is working 2")
     db.run("INSERT INTO tasks (id, userId, title, status) VALUES (?, ?, ?, ?)", [id, req.user.id, title, status], (err) => {
