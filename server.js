@@ -100,18 +100,38 @@ app.post("/login",(req,res)=>{
         res.json({message:"Login Succesfully",token})
     })
 })
+app.post("/createtask", authenticateJWT, (req, res) => {
+    const { title, status } = req.body;
+    const id = require("uuid").v4();
+
+    // Check for missing fields
+    if (!title || !status) {
+        return res.status(400).send({ message: "Title and status are required!" });
+    }
+
+    db.run("INSERT INTO tasks (id, userId, title, status) VALUES (?, ?, ?, ?)", [id, req.user.id, title, status], (err) => {
+        if (err) {
+            console.error("Error creating task:", err); // Log the error for debugging
+            return res.status(500).send({ message: "Error creating task" });
+        }
+        res.status(201).send({ message: "Task Created Successfully!" });
+    });
+});
 
 
-app.post("/createtask",authenticateJWT,(req,res)=>{
+/*app.post("/createtask",authenticateJWT,(req,res)=>{
     const {title,status}=req.body;
     const id=require("uuid").v4();
+    if (!title || !status) {
+        return res.status(400).send({ message: "Title and status are required!" });
+    }
 
     db.run("INSERT INTO tasks (id,userId,title,status) VALUES (?,?,?,?)",[id,req.user.id,title,status],()=>{
       res.status(201).send({message:"Task Created Successfully!"});
 
     })
 
-})
+})*/
 
 app.get("/gettasks",authenticateJWT,(req,res)=>{
     db.all("SELECT * FROM tasks WHERE userId=?",[req.user.id],(err,tasks)=>{
