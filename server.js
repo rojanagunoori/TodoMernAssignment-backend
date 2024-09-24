@@ -19,10 +19,15 @@ const corsOptions = {
     origin: "https://todo-mern-sqlite3.netlify.app/",
     optionsSuccessStatus: 200 
 };
-
 app.use(cors({
-    origin: "https://todo-mern-sqlite3.netlify.app" 
+    origin: 'https://todo-mern-sqlite3.netlify.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }));
+
+/*app.use(cors({
+    origin: "https://todo-mern-sqlite3.netlify.app" 
+}));*/
 
 //app.use(cors())
 app.use(bodyParser.json());
